@@ -24,13 +24,5 @@ pip install -r requirements.txt
 Please, download the entire project repository (as it contains necessary data in respective module folders for each module notebook to run as expected). Each notebook can then be run after installing all the required packages as described above.
 Also, module3 repository needs to contain data files which couldn't be uploaded due to sizing issues. It should have 2 repositories within it, one named masks with all the mask files inside, and one named scans with all the scans inside.
 
-## AI tools usage
-ChatGPT was only used supportively, namely for:
-- Suggested use of scipy.ndimage for image resizing
-- Avoiding zero division in OSEM
-- Suggesting using uniform_filter from scipy.ndimage (consulted since couldn't find a mean_filter function myself)
-- Providing the backbone for some doctrings which I then refined and corrected
-- Suggested use of .copy() for storing the read-in data using SimpleITK as I was getting corrupted data and unexpected behavior, but couldn't identify any bugs in the code 
-- Suggested .astype(np.uint8) for memory usage efficiency (vs .astype(np.uint8))
-- Merging multiple dataframes into 1, and converting dictionaries to dataframes correctly.
-- Understanding how to extract 'feature importance' from Random Forest CLassifier model.
+## Note
+In module 3, no source files were uploaded right now due to size issues. 
