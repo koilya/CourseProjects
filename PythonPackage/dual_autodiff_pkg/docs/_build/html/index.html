@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dual Auto-Differentiation Package Documentation &mdash; Dual Auto-differentiation Package beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f0d2c090"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial Notebook" href="tutorial_notebook.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Dual Auto-differentiation Package
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_notebook.html">Tutorial Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison.html">Comparing numeric and dual differentiation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Dual Auto-differentiation Package</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Dual Auto-Differentiation Package Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dual-auto-differentiation-package-documentation">
+<h1>Dual Auto-Differentiation Package Documentation<a class="headerlink" href="#dual-auto-differentiation-package-documentation" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="line-block">
+<div class="line"><em>Author</em>: Ilya Kogan</div>
+</div>
+<p id="dualautodiff-package">The <strong>dual_autodiff package</strong> is a Python package designed to incorporate instant differentiation using Dual numbers.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>To install the package and its dependencies (in editable mode) from the dual_autodiff_pkg directory with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Or install the package from the wheel (binary distribution of the code) from the dual_autodiff_pkg/dist directory using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>dual_autodiff-0.1.0-py3-none-any.whl
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>Here’s a quick example of how to use the package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dual_autodiff</span> <span class="kn">import</span> <span class="n">Dual</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Dual number representing (2 + 1ε)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Real part:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dual part:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dual</span><span class="p">)</span>
+
+<span class="c1"># performing operations on dual numbers</span>
+<span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+
+<span class="c1"># calculating a derivative of a function g(x)=x^2-xcosx at x=2</span>
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+   <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">cos</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Derivative of g(x) at x=2 is </span><span class="si">{</span><span class="n">g</span><span class="p">(</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">dual</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="module-dual_autodiff.dual">
+<span id="api-reference"></span><h2>API Reference<a class="headerlink" href="#module-dual_autodiff.dual" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dual_autodiff.dual.</span></span><span class="sig-name descname"><span class="pre">Dual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual" title="Link to this definition"></a></dt>
+<dd><p>A class that implements Dual numbers and operations on them 
+to provide auto-differentiation functionality.</p>
+<p>Attributes:
+- real: The real part of the dual number.
+- dual: The dual part of the dual number.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__add__" title="Link to this definition"></a></dt>
+<dd><p>Adds two Dual numbers together. Overrides the default + operator (for instances of Dual class).</p>
+<p>Parameters:
+- self: Dual number
+- other: Another Dual number to add.</p>
+<p>Returns:
+A Dual instance with the sum of the real and dual parts of the input Dual numbers.
+Raises TypeError if the other is not a Dual.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="go">Dual(5, 3)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a Dual number.</p>
+<p>Parameters:
+- real: real part of the number.
+- dual: dual part of the number.</p>
+<p>Returns:
+A Dual instance with given real and dual parts.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">Dual(2, 1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__mul__" title="Link to this definition"></a></dt>
+<dd><p>Multiplies two Dual numbers. Overrides the default * operator (for instances of Dual class).</p>
+<p>Parameters:
+- self: Dual number.
+- other: Another Dual number to multiply with.</p>
+<p>Returns:
+A Dual instance which is the product of the input Dual numbers. Raises TypeError if the other is not a Dual.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">Dual(6, 7)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__pow__">
+<span class="sig-name descname"><span class="pre">__pow__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__pow__" title="Link to this definition"></a></dt>
+<dd><p>Calculates the power of a Dual number. Overrides the default ** operator (for instances of Dual class).</p>
+<p>Parameters:
+- self: Dual number to raise into the power.
+- other: Dual number or a number to raise to.</p>
+<p>Returns:
+A Dual instance which is the power of the Dual number the function is applied to.
+Raises a TypeError if the second operand is not a Dual number or a number or a ValueError 
+if the real part of the Dual number the function is applied to is not positive.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">Dual(8.0, 21.0)</span>
+</pre></div>
+</div>
+<p>Another example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="go">Dual(4, 4)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Returns a string representation of the Dual number.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__sub__" title="Link to this definition"></a></dt>
+<dd><p>Subtracts one Dual number from another. Overrides the default - operator (for instances of Dual class).</p>
+<p>Parameters: 
+- self: Dual number from which to subtract
+- other: Dual number to subtract.</p>
+<p>Returns:
+A Dual instance with the difference of the real and dual parts of the input Dual numbers.
+Raises TypeError if the other is not a Dual.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">Dual(-1, -1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.__truediv__">
+<span class="sig-name descname"><span class="pre">__truediv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.__truediv__" title="Link to this definition"></a></dt>
+<dd><p>Divides one Dual number by another. Overrides the default / operator (for instances of Dual class).</p>
+<p>Parameters:
+- self: Dual number to divide.
+- other: Dual number to divide by.</p>
+<p>Returns:
+A Dual instance with the quotient of the input Dual numbers if division can be performed. 
+Raises ZeroDivisionError, otherwise. Raises TypeError if the other is not a Dual.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">Dual(0.5, 0.0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.cos">
+<span class="sig-name descname"><span class="pre">cos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.cos" title="Link to this definition"></a></dt>
+<dd><p>Calculates the cosine of the Dual number.</p>
+<p>Returns:
+A Dual instance which is the cosine of the Dual number the function is applied to.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span>
+<span class="go">Dual(-0.4161468365471424, -0.9092974268256817)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.exp">
+<span class="sig-name descname"><span class="pre">exp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.exp" title="Link to this definition"></a></dt>
+<dd><p>Calculates the exponential of a Dual number.</p>
+<p>Returns:
+A Dual instance which is the exponential of the Dual number the function is applied to.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+<span class="go">Dual(7.38905609893065, 7.38905609893065)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.log" title="Link to this definition"></a></dt>
+<dd><p>Calculates the natural logarithm of the Dual number.</p>
+<p>Returns:
+A Dual instance which is the natural logarithm of the Dual number the function is applied to
+if the real part of the Dual number is positive, otherwise raises a ValueError.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+<span class="go">Dual(0.6931471805599453, 0.5)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.sin">
+<span class="sig-name descname"><span class="pre">sin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.sin" title="Link to this definition"></a></dt>
+<dd><p>Calculates the sine of the Dual number.</p>
+<p>Returns:
+A Dual instance which is the sine of the Dual number the function is applied to.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+<span class="go">Dual(0.9092974268256817, -0.4161468365471424)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dual_autodiff.dual.Dual.tan">
+<span class="sig-name descname"><span class="pre">tan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dual_autodiff.dual.Dual.tan" title="Link to this definition"></a></dt>
+<dd><p>Calculates the tangent of the Dual number.</p>
+<p>Returns:
+A Dual instance which is the tangent of the Dual number the function is applied to or raises
+a ValueError if the cosine of this Dual number is zero.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tan</span><span class="p">()</span>
+<span class="go">Dual(-2.185039863261519, 5.774399204041917)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h2>
+<p>Contributions are welcome! Fork our repository and submit a pull request.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>This project is licensed under the MIT License.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This package was developed for the Coursework of the following course:
+<a class="reference external" href="https://mphildis.bigdata.cam.ac.uk">MPhil in Data Intensive Science</a></p>
+</div>
+</section>
+<section id="useful-resources-and-further-reading">
+<h2>Useful Resources and further reading<a class="headerlink" href="#useful-resources-and-further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Dual_number">Dual Numbers</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Automatic_differentiation">Automatic Differentiation</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial_notebook.html" class="btn btn-neutral float-right" title="Tutorial Notebook" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Ilya Kogan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

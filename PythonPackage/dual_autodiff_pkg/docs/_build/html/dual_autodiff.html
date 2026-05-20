@@ -1,0 +1,763 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use the dual_autodiff package &mdash; Dual Auto-differentiation Package beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f0d2c090"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Comparing numeric and dual differentiation" href="comparison.html" />
+    <link rel="prev" title="Tutorial Notebook" href="tutorial_notebook.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Dual Auto-differentiation Package
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial_notebook.html">Tutorial Notebook</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to use the dual_autodiff package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Importing-the-dual_autodiff-package">Importing the dual_autodiff package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Using-the-dual_autodiff-package">Using the dual_autodiff package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Example-of-automatic-differentiation-performed-by-the-package">Example of automatic differentiation performed by the package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Performance-comparison-of-pure-python-package-and-cythonized-package">Performance comparison of pure python package and cythonized package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Memory-comparison">Memory comparison</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="comparison.html">Comparing numeric and dual differentiation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Dual Auto-differentiation Package</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="tutorial_notebook.html">Tutorial Notebook</a></li>
+      <li class="breadcrumb-item active">How to use the dual_autodiff package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dual_autodiff.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="How-to-use-the-dual_autodiff-package">
+<h1>How to use the dual_autodiff package<a class="headerlink" href="#How-to-use-the-dual_autodiff-package" title="Link to this heading"></a></h1>
+<section id="Importing-the-dual_autodiff-package">
+<h2>Importing the dual_autodiff package<a class="headerlink" href="#Importing-the-dual_autodiff-package" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dual_autodiff.dual</span> <span class="kn">import</span> <span class="n">Dual</span>
+<span class="kn">import</span> <span class="nn">math</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Using-the-dual_autodiff-package">
+<h2>Using the dual_autodiff package<a class="headerlink" href="#Using-the-dual_autodiff-package" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assign variable x to a dual number with real part 1 and dual part 5</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># to extract the real part of a Dual number, use .real</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+
+<span class="c1"># to extract only the dual part of a Dual number, use .dual</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dual</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+5
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Package will handle strings of number inputs but will warn user about proper usage</span>
+<span class="n">Dual</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WARNING: You should use an int or float as input for Dual number
+WARNING: You should use an int or float as input for Dual number
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dual(1.0, 1.0)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creating two variables equal to Dual numbers and summing them together</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">x</span><span class="o">+</span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dual(3, 8)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiplying 2 Dual numbers and printing the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1) * Dual(3, 2) = &quot;</span><span class="p">,</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># dividing one Dual number by another and printing the result</span>
+<span class="n">result_div</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_div</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dual(2, 1) * Dual(3, 2) =  Dual(6, 7)
+Dual(0.5, 0.0)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># our package can raise dual numbers to both real and dual powers</span>
+<span class="c1"># raising Dual number to real power</span>
+<span class="n">result_pow1</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_pow1</span><span class="p">)</span>
+
+<span class="c1"># raising Dual number to Dual power</span>
+<span class="n">result_pow2</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_pow2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dual(4, 4)
+Dual(8, 23.090354888959126)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Computing the sine of a Dual number</span>
+<span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dual(0.9092974268256817, -0.4161468365471424)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Computing sine, cosine, and tangent of a Dual number</span>
+<span class="n">sin_res</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+<span class="n">cos_res</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span>
+<span class="n">tan_res</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">tan</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sine of Dual(3,2) is: </span><span class="si">{</span><span class="n">sin_res</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cosine of Dual(3,2) is: </span><span class="si">{</span><span class="n">cos_res</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tangent of Dual(3,2) is: </span><span class="si">{</span><span class="n">tan_res</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># and checking that the relationship between trigonometric functions holds as expected</span>
+<span class="c1"># using np.allclose instead of == due to float-point instability</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Real part behaves according to trigonometric definitions:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="n">sin_res</span> <span class="o">/</span> <span class="n">cos_res</span><span class="p">)</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">tan_res</span><span class="o">.</span><span class="n">real</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dual part behaves according to trigonometric definitions:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="n">sin_res</span> <span class="o">/</span> <span class="n">cos_res</span><span class="p">)</span><span class="o">.</span><span class="n">dual</span><span class="p">,</span> <span class="n">tan_res</span><span class="o">.</span><span class="n">dual</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Sine of Dual(3,2) is: Dual(0.1411200080598672, -1.9799849932008908)
+Cosine of Dual(3,2) is: Dual(-0.9899924966004454, -0.2822400161197344)
+Tangent of Dual(3,2) is: Dual(-0.1425465430742778, 2.040639033884854)
+Real part behaves according to trigonometric definitions: True
+Dual part behaves according to trigonometric definitions: True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#computing natural logarithm of a Dual number</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logarithm of Dual(4,1) is </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># computing exponential of a Dual number</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exponential of </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s2"> as expected&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Logarithm of Dual(4,1) is Dual(1.3862943611198906, 0.25)
+Exponential of Dual(1.3862943611198906, 0.25) is Dual(4.0, 1.0) as expected
+</pre></div></div>
+</div>
+</section>
+<section id="Example-of-automatic-differentiation-performed-by-the-package">
+<h2>Example of automatic differentiation performed by the package<a class="headerlink" href="#Example-of-automatic-differentiation-performed-by-the-package" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a function</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">())</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">+</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">cos</span><span class="p">())</span>
+
+<span class="n">x</span><span class="o">=</span><span class="n">Dual</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># print the result where the dual part will be the derivative of the function at x=1.5</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dual(0.15665054756073515, -1.9612372705533612)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this is the derivative of the function f(x) at x=1.5 computed analytically</span>
+<span class="c1"># let&#39;s compare it to the result received from our package</span>
+<span class="k">def</span> <span class="nf">deriv_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Analytical derivative at x=1.5: &quot;</span><span class="p">,</span> <span class="n">deriv_f</span><span class="p">(</span><span class="mf">1.5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Derivative computed using Dual numbers x=1.5: &quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">dual</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Are they equal? </span><span class="si">{</span><span class="n">deriv_f</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">dual</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Analytical derivative at x=1.5:  -1.9612372705533612
+Derivative computed using Dual numbers x=1.5:  -1.9612372705533612
+Are they equal? True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we can compute the derivative of the function at many points using the dual_autodiff package</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mi">99</span><span class="p">)</span>
+<span class="c1">#xD = np.array([f(Dual(x_i,0)).dual for x_i in x])</span>
+
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span>
+
+<span class="c1"># compute the derivative of g(x) at many points using the dual_autodiff package</span>
+<span class="n">xD_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">g</span><span class="p">(</span><span class="n">Dual</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">dual</span> <span class="k">for</span> <span class="n">x_i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+<span class="n">xR_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">g</span><span class="p">(</span><span class="n">Dual</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">real</span> <span class="k">for</span> <span class="n">x_i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+
+<span class="c1"># plot the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">xR_g</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;g(x)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">xD_g</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;derivative of g(x)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;g(x) and g&#39;(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Illustration of the dual_autodiff package derivative calculation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># As we can see, the dual_autodiff package is able to compute the derivative of the function</span>
+<span class="c1"># at many points accurately, building the derivative function</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/dual_autodiff_16_0.png" src="_images/dual_autodiff_16_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Performance-comparison-of-pure-python-package-and-cythonized-package">
+<h1>Performance comparison of pure python package and cythonized package<a class="headerlink" href="#Performance-comparison-of-pure-python-package-and-cythonized-package" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#import the cythonized package</span>
+<span class="kn">from</span> <span class="nn">dual_autodiff_x</span> <span class="kn">import</span> <span class="n">dual</span> <span class="k">as</span> <span class="n">dfx</span>
+
+<span class="c1">#import time for the comparison</span>
+<span class="kn">import</span> <span class="nn">timeit</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cell that performs all the operations using the python version of the package</span>
+<span class="c1"># stores times in the array</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> <span class="c1">#set a random seed</span>
+<span class="n">python_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># single instance creation</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;x = Dual(1,5)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># addition</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1) + Dual(3, 2)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># multiplication</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1) * Dual(3, 2)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># division</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1) / Dual(4, 2)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># sine</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1).sin()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># cosine</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1).cos()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># tangent</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1).tan()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># logarithm</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1).log()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># exponentiation</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1).exp()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># power</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;Dual(2, 1) ** (Dual(2,1))&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">python_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cell that performs all the operations using the cython version of the package</span>
+<span class="c1"># in the same order and stores times in the array</span>
+<span class="n">cython_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># single instance creation</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;x = dfx.Dual(1,5)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># addition</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1) + dfx.Dual(3, 2)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># multiplication</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1) * dfx.Dual(3, 2)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># division</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1) / dfx.Dual(4, 2)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># sine</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1).sin()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># cosine</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1).cos()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># tangent</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1).tan()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># logarithm</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1).log()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># exponentiation</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1).exp()&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+
+<span class="c1"># power</span>
+<span class="n">time_taken</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;dfx.Dual(2, 1) ** (dfx.Dual(2,1))&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cython_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_taken</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># making a bar plot to see the difference in time execution between cython and python versions</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="s1">&#39;Cython&#39;</span><span class="p">]</span>
+
+<span class="c1"># Create the bar positions</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">python_times</span><span class="p">))</span>
+
+<span class="c1"># Custom text labels for x-axis</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Initiation&#39;</span><span class="p">,</span> <span class="s1">&#39;Addition&#39;</span><span class="p">,</span> <span class="s1">&#39;Multiplication&#39;</span><span class="p">,</span> <span class="s1">&#39;Division&#39;</span><span class="p">,</span> <span class="s1">&#39;Sine&#39;</span><span class="p">,</span> <span class="s1">&#39;Cosine&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Tangent&#39;</span><span class="p">,</span> <span class="s1">&#39;Logarithm&#39;</span><span class="p">,</span> <span class="s1">&#39;Exponent&#39;</span><span class="p">,</span> <span class="s1">&#39;Power&#39;</span><span class="p">]</span>  <span class="c1"># Text labels for x-axis</span>
+
+<span class="c1"># Plot the bars</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">indices</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">python_times</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">indices</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">cython_times</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cython&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="c1"># Customize plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Operation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Time Taken in seconds (for 1000 iterations)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Speed comparison for cythonized vs pure python package&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Show plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/dual_autodiff_21_0.png" src="_images/dual_autodiff_21_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratios</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cython_times</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">python_times</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">ratios</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Ratio of cythonized time to pure python time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Time to perform operation, ratio: Cython vs Python&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ratios</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ratios</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.76538996 0.76082926 0.78540155 0.76139928 0.92582328 0.89404897
+ 0.90684444 0.79937848 0.92217977 0.96169813]
+0.8482993118373674
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/dual_autodiff_22_1.png" src="_images/dual_autodiff_22_1.png" />
+</div>
+</div>
+</section>
+<section id="Memory-comparison">
+<h1>Memory comparison<a class="headerlink" href="#Memory-comparison" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">memory_profiler</span> <span class="kn">import</span> <span class="n">memory_usage</span>
+
+<span class="c1"># Function to wrap and measure memory</span>
+<span class="k">def</span> <span class="nf">measure_memory</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="n">mem_usage</span> <span class="o">=</span> <span class="n">memory_usage</span><span class="p">((</span><span class="n">func</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">mem_usage</span><span class="p">)</span>  <span class="c1"># Return the peak memory usage during the function execution</span>
+
+<span class="c1"># Python version of the package: perform operations and track memory usage</span>
+
+<span class="c1"># Store memory comparisons</span>
+<span class="n">python_memory</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Single instance creation</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Addition</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Multiplication</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Division</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Sine</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">())</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Cosine</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cos</span><span class="p">())</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Tangent</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tan</span><span class="p">())</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Logarithm</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">())</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Exponentiation</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Power</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">python_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cython version of the package: perform operations and track memory</span>
+<span class="n">cython_memory</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Single instance creation</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Addition</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Multiplication</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Division</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Sine</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">())</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Cosine</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cos</span><span class="p">())</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Tangent</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tan</span><span class="p">())</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Logarithm</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">())</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Exponentiation</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+
+<span class="c1"># Power</span>
+<span class="n">memory_taken</span> <span class="o">=</span> <span class="n">measure_memory</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dual</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">cython_memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory_taken</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># making a bar plot to see the difference in memory usage between cython and python versions</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="s1">&#39;Cython&#39;</span><span class="p">]</span>
+
+<span class="c1"># Create the bar positions</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">python_memory</span><span class="p">))</span>
+
+<span class="c1"># Custom text labels for x-axis</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Initiation&#39;</span><span class="p">,</span> <span class="s1">&#39;Addition&#39;</span><span class="p">,</span> <span class="s1">&#39;Multiplication&#39;</span><span class="p">,</span> <span class="s1">&#39;Division&#39;</span><span class="p">,</span> <span class="s1">&#39;Sine&#39;</span><span class="p">,</span> <span class="s1">&#39;Cosine&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Tangent&#39;</span><span class="p">,</span> <span class="s1">&#39;Logarithm&#39;</span><span class="p">,</span> <span class="s1">&#39;Exponent&#39;</span><span class="p">,</span> <span class="s1">&#39;Power&#39;</span><span class="p">]</span>  <span class="c1"># Text labels for x-axis</span>
+
+<span class="c1"># Plot the bars</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">indices</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">python_memory</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">indices</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">cython_memory</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cython&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="c1"># Customize plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Operation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Memory Used&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Memory usage comparison for cythonized vs pure python package&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Show plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/dual_autodiff_26_0.png" src="_images/dual_autodiff_26_0.png" />
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial_notebook.html" class="btn btn-neutral float-left" title="Tutorial Notebook" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="comparison.html" class="btn btn-neutral float-right" title="Comparing numeric and dual differentiation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Ilya Kogan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
