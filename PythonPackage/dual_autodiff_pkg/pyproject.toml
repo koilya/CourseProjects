@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm"]  # Build requirements
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dual_autodiff" #name of the package must match the core folder name
+version = "0.1.0"
+description = "A Python package for implementing auto-differentiation using dual numbers"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Ilya Kogan", email = "ik453@cam.ac.uk" }
+]
+keywords = ["dual", "differentiation", "automatic", "autodiff"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries"
+]
+
+# Runtime dependencies
+dependencies = [
+    "numpy"
+]
+
+[project.urls]
+"Documentation" = "https://your-readthedocs-url-here"
+"Source" = "https://github.com/yourusername/package"
+"Issues" = "https://github.com/yourusername/package/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
